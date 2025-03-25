@@ -16,6 +16,14 @@ import './index.css'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
 
+// 初始化MSW
+if (import.meta.env.DEV) {
+  const { worker } = await import('./mocks/browser')
+  worker.start({
+    onUnhandledRequest: 'bypass',
+  })
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -59,7 +67,7 @@ const queryClient = new QueryClient({
           })
           useAuthStore.getState().auth.reset()
           const redirect = `${router.history.location.href}`
-          router.navigate({ to: '/sign-in', search: { redirect } })
+          router.navigate({ to: '/signin', search: { redirect } })
         }
         if (error.response?.status === 500) {
           toast({

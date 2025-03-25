@@ -15,7 +15,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
-import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authOtpImport } from './routes/(auth)/otp'
 import { Route as auth500Import } from './routes/(auth)/500'
 
@@ -26,8 +25,8 @@ const errors500LazyImport = createFileRoute('/(errors)/500')()
 const errors404LazyImport = createFileRoute('/(errors)/404')()
 const errors403LazyImport = createFileRoute('/(errors)/403')()
 const errors401LazyImport = createFileRoute('/(errors)/401')()
+const authSigninLazyImport = createFileRoute('/(auth)/signin')()
 const authSignUpLazyImport = createFileRoute('/(auth)/sign-up')()
-const authSignIn2LazyImport = createFileRoute('/(auth)/sign-in-2')()
 const authForgotPasswordLazyImport = createFileRoute(
   '/(auth)/forgot-password',
 )()
@@ -118,6 +117,14 @@ const errors401LazyRoute = errors401LazyImport
   } as any)
   .lazy(() => import('./routes/(errors)/401.lazy').then((d) => d.Route))
 
+const authSigninLazyRoute = authSigninLazyImport
+  .update({
+    id: '/(auth)/signin',
+    path: '/signin',
+    getParentRoute: () => rootRoute,
+  } as any)
+  .lazy(() => import('./routes/(auth)/signin.lazy').then((d) => d.Route))
+
 const authSignUpLazyRoute = authSignUpLazyImport
   .update({
     id: '/(auth)/sign-up',
@@ -125,14 +132,6 @@ const authSignUpLazyRoute = authSignUpLazyImport
     getParentRoute: () => rootRoute,
   } as any)
   .lazy(() => import('./routes/(auth)/sign-up.lazy').then((d) => d.Route))
-
-const authSignIn2LazyRoute = authSignIn2LazyImport
-  .update({
-    id: '/(auth)/sign-in-2',
-    path: '/sign-in-2',
-    getParentRoute: () => rootRoute,
-  } as any)
-  .lazy(() => import('./routes/(auth)/sign-in-2.lazy').then((d) => d.Route))
 
 const authForgotPasswordLazyRoute = authForgotPasswordLazyImport
   .update({
@@ -152,12 +151,6 @@ const AuthenticatedSettingsRouteLazyRoute =
   } as any).lazy(() =>
     import('./routes/_authenticated/settings/route.lazy').then((d) => d.Route),
   )
-
-const authSignInRoute = authSignInImport.update({
-  id: '/(auth)/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const authOtpRoute = authOtpImport.update({
   id: '/(auth)/otp',
@@ -297,13 +290,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authOtpImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/sign-in': {
-      id: '/(auth)/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof authSignInImport
-      parentRoute: typeof rootRoute
-    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -318,18 +304,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordLazyImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/sign-in-2': {
-      id: '/(auth)/sign-in-2'
-      path: '/sign-in-2'
-      fullPath: '/sign-in-2'
-      preLoaderRoute: typeof authSignIn2LazyImport
-      parentRoute: typeof rootRoute
-    }
     '/(auth)/sign-up': {
       id: '/(auth)/sign-up'
       path: '/sign-up'
       fullPath: '/sign-up'
       preLoaderRoute: typeof authSignUpLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/signin': {
+      id: '/(auth)/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof authSigninLazyImport
       parentRoute: typeof rootRoute
     }
     '/(errors)/401': {
@@ -503,11 +489,10 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
   '/500': typeof errors500LazyRoute
   '/otp': typeof authOtpRoute
-  '/sign-in': typeof authSignInRoute
   '/settings': typeof AuthenticatedSettingsRouteLazyRouteWithChildren
   '/forgot-password': typeof authForgotPasswordLazyRoute
-  '/sign-in-2': typeof authSignIn2LazyRoute
   '/sign-up': typeof authSignUpLazyRoute
+  '/signin': typeof authSigninLazyRoute
   '/401': typeof errors401LazyRoute
   '/403': typeof errors403LazyRoute
   '/404': typeof errors404LazyRoute
@@ -528,10 +513,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/500': typeof errors500LazyRoute
   '/otp': typeof authOtpRoute
-  '/sign-in': typeof authSignInRoute
   '/forgot-password': typeof authForgotPasswordLazyRoute
-  '/sign-in-2': typeof authSignIn2LazyRoute
   '/sign-up': typeof authSignUpLazyRoute
+  '/signin': typeof authSigninLazyRoute
   '/401': typeof errors401LazyRoute
   '/403': typeof errors403LazyRoute
   '/404': typeof errors404LazyRoute
@@ -554,11 +538,10 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/(auth)/500': typeof auth500Route
   '/(auth)/otp': typeof authOtpRoute
-  '/(auth)/sign-in': typeof authSignInRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteLazyRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordLazyRoute
-  '/(auth)/sign-in-2': typeof authSignIn2LazyRoute
   '/(auth)/sign-up': typeof authSignUpLazyRoute
+  '/(auth)/signin': typeof authSigninLazyRoute
   '/(errors)/401': typeof errors401LazyRoute
   '/(errors)/403': typeof errors403LazyRoute
   '/(errors)/404': typeof errors404LazyRoute
@@ -583,11 +566,10 @@ export interface FileRouteTypes {
     | ''
     | '/500'
     | '/otp'
-    | '/sign-in'
     | '/settings'
     | '/forgot-password'
-    | '/sign-in-2'
     | '/sign-up'
+    | '/signin'
     | '/401'
     | '/403'
     | '/404'
@@ -607,10 +589,9 @@ export interface FileRouteTypes {
   to:
     | '/500'
     | '/otp'
-    | '/sign-in'
     | '/forgot-password'
-    | '/sign-in-2'
     | '/sign-up'
+    | '/signin'
     | '/401'
     | '/403'
     | '/404'
@@ -631,11 +612,10 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/(auth)/500'
     | '/(auth)/otp'
-    | '/(auth)/sign-in'
     | '/_authenticated/settings'
     | '/(auth)/forgot-password'
-    | '/(auth)/sign-in-2'
     | '/(auth)/sign-up'
+    | '/(auth)/signin'
     | '/(errors)/401'
     | '/(errors)/403'
     | '/(errors)/404'
@@ -659,10 +639,9 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   auth500Route: typeof auth500Route
   authOtpRoute: typeof authOtpRoute
-  authSignInRoute: typeof authSignInRoute
   authForgotPasswordLazyRoute: typeof authForgotPasswordLazyRoute
-  authSignIn2LazyRoute: typeof authSignIn2LazyRoute
   authSignUpLazyRoute: typeof authSignUpLazyRoute
+  authSigninLazyRoute: typeof authSigninLazyRoute
   errors401LazyRoute: typeof errors401LazyRoute
   errors403LazyRoute: typeof errors403LazyRoute
   errors404LazyRoute: typeof errors404LazyRoute
@@ -674,10 +653,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   auth500Route: auth500Route,
   authOtpRoute: authOtpRoute,
-  authSignInRoute: authSignInRoute,
   authForgotPasswordLazyRoute: authForgotPasswordLazyRoute,
-  authSignIn2LazyRoute: authSignIn2LazyRoute,
   authSignUpLazyRoute: authSignUpLazyRoute,
+  authSigninLazyRoute: authSigninLazyRoute,
   errors401LazyRoute: errors401LazyRoute,
   errors403LazyRoute: errors403LazyRoute,
   errors404LazyRoute: errors404LazyRoute,
@@ -698,10 +676,9 @@ export const routeTree = rootRoute
         "/_authenticated",
         "/(auth)/500",
         "/(auth)/otp",
-        "/(auth)/sign-in",
         "/(auth)/forgot-password",
-        "/(auth)/sign-in-2",
         "/(auth)/sign-up",
+        "/(auth)/signin",
         "/(errors)/401",
         "/(errors)/403",
         "/(errors)/404",
@@ -727,9 +704,6 @@ export const routeTree = rootRoute
     "/(auth)/otp": {
       "filePath": "(auth)/otp.tsx"
     },
-    "/(auth)/sign-in": {
-      "filePath": "(auth)/sign-in.tsx"
-    },
     "/_authenticated/settings": {
       "filePath": "_authenticated/settings/route.lazy.tsx",
       "parent": "/_authenticated",
@@ -744,11 +718,11 @@ export const routeTree = rootRoute
     "/(auth)/forgot-password": {
       "filePath": "(auth)/forgot-password.lazy.tsx"
     },
-    "/(auth)/sign-in-2": {
-      "filePath": "(auth)/sign-in-2.lazy.tsx"
-    },
     "/(auth)/sign-up": {
       "filePath": "(auth)/sign-up.lazy.tsx"
+    },
+    "/(auth)/signin": {
+      "filePath": "(auth)/signin.lazy.tsx"
     },
     "/(errors)/401": {
       "filePath": "(errors)/401.lazy.tsx"

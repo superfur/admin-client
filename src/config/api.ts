@@ -18,5 +18,10 @@ export const API_ENDPOINTS = {
     update: (id: string) => `/users/${id}`,
     delete: (id: string) => `/users/${id}`,
   },
+  images: {
+    upload: '/images/upload',
+    list: '/images',
+    delete: (id: string) => `/images/${id}`,
+  },
   // 其他接口...
 } as const

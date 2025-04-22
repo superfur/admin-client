@@ -1,5 +1,6 @@
 import { API_ENDPOINTS } from '@/config/api'
 import axios from '@/lib/axios'
+import { QiniuUploader } from '../utils/qiniuUpload'
 
 export interface Image {
   id: string
@@ -20,19 +21,31 @@ export interface ImageListResponse {
 export const imageService = {
   // 上传图片
   upload: async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
+    try {
+      // 使用七牛云上传
+      const qiniuUploader = QiniuUploader.getInstance()
+      const key = `images/${Date.now()}-${file.name}`
+      const url = await qiniuUploader.uploadFile(file, key)
 
-    const response = await axios.post<Image>(
-      API_ENDPOINTS.images.upload,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      // 将上传结果保存到后端
+      const response = await axios.post<Image>(
+        API_ENDPOINTS.images.upload,
+        {
+          url,
+          filename: file.name,
+          size: file.size,
+          type: file.type,
         },
-      }
-    )
-    return response.data
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      return response.data
+    } catch (_error) {
+      throw new Error('图片上传失败')
+    }
   },
 
   // 获取图片列表

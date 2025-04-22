@@ -25,3 +25,4 @@ export const API_ENDPOINTS = {
   },
   // 其他接口...
 } as const
+ 

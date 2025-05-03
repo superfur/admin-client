@@ -386,7 +386,7 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/images/upload': {
       id: '/_authenticated/images/upload'
-      path: '/images/upload'
+      path: '/upload'
       fullPath: '/images/upload'
       preLoaderRoute: typeof AuthenticatedImagesUploadLazyImport
       parentRoute: typeof AuthenticatedRouteImport

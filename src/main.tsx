@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
   },
 })
 
-import './index.css'
+// import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -1,15 +1,13 @@
 import tailwindCssAnimate from 'tailwindcss-animate'
 import { fontFamily } from 'tailwindcss/defaultTheme'
-import { fonts } from './src/config/fonts'
 
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
-  safelist: fonts.map((font) => `font-${font}`),
   theme: {
     container: {
-      center: 'true',
+      center: true,
       padding: '2rem',
       screens: {
         '2xl': '1400px',

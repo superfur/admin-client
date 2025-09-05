@@ -23,7 +23,8 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
 
-      login: async (email: string, password: string) => {
+      // login: async (email: string, password: string) => {
+      login: async (email: string) => {
         try {
           // 模拟API调用
           await new Promise(resolve => setTimeout(resolve, 1000))
@@ -43,8 +44,8 @@ export const useAuthStore = create<AuthState>()(
           })
 
           return true
-        } catch (error) {
-          console.error('Login failed:', error)
+        } catch {
+          // console.error('Login failed:', error)
           return false
         }
       },

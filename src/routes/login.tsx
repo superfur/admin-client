@@ -32,7 +32,7 @@ function Login() {
       } else {
         setError('登录失败，请检查邮箱和密码')
       }
-    } catch (err) {
+    } catch {
       setError('登录失败，请稍后重试')
     } finally {
       setIsLoading(false)

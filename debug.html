@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试页面</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-link { display: block; margin: 10px 0; padding: 10px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 5px; }
+        .test-link:hover { background: #e0e0e0; }
+    </style>
+</head>
+<body>
+    <h1>路由测试页面</h1>
+    <p>点击下面的链接测试各个页面：</p>
+    
+    <a href="http://localhost:3000/" class="test-link">首页 (需要登录)</a>
+    <a href="http://localhost:3000/login" class="test-link">登录页面</a>
+    <a href="http://localhost:3000/register" class="test-link">注册页面</a>
+    <a href="http://localhost:3000/forgot-password" class="test-link">找回密码页面</a>
+    <a href="http://localhost:3000/users" class="test-link">用户管理 (需要登录)</a>
+    <a href="http://localhost:3000/roles" class="test-link">角色管理 (需要登录)</a>
+    <a href="http://localhost:3000/permissions" class="test-link">权限管理 (需要登录)</a>
+    <a href="http://localhost:3000/settings" class="test-link">系统设置 (需要登录)</a>
+    <a href="http://localhost:3000/about" class="test-link">关于页面 (需要登录)</a>
+    
+    <h2>测试说明</h2>
+    <ul>
+        <li>未登录用户访问需要认证的页面应该重定向到登录页</li>
+        <li>已登录用户访问认证页面应该重定向到首页</li>
+        <li>登录页面应该显示在独立的布局中（无侧边栏）</li>
+        <li>主应用页面应该显示完整的布局（包含侧边栏）</li>
+    </ul>
+</body>
+</html>

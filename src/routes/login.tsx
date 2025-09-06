@@ -1,47 +1,64 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { IconEye, IconEyeOff, IconLock, IconMail } from '@tabler/icons-react'
+import { IconEye, IconEyeOff, IconLock, IconUser } from '@tabler/icons-react'
 import { useAuthStore } from '@/stores/auth'
+import { LoginRequest } from '@/types/api'
+import { RouteGuard } from '@/components/auth/route-guard'
+import { AuthLayout } from '@/components/layout/auth-layout'
 
 export const Route = createFileRoute('/login')({
-  component: Login,
+  component: () => (
+    <RouteGuard requireAuth={false}>
+      <AuthLayout>
+        <Login />
+      </AuthLayout>
+    </RouteGuard>
+  ),
 })
 
-function Login() {
-  const [email, setEmail] = useState('')
+export function Login() {
+  const [loginName, setLoginName] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
   const navigate = useNavigate()
-  const { login } = useAuthStore()
+  const { login, isLoading, error, clearError, isAuthenticated } = useAuthStore()
+
+  // 如果已经登录，重定向到首页
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate({ to: '/' })
+    }
+  }, [isAuthenticated, navigate])
+
+  // 清除错误信息
+  useEffect(() => {
+    return () => clearError()
+  }, [clearError])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    setError('')
     
-    try {
-      const success = await login(email, password)
-      if (success) {
-        navigate({ to: '/' })
-      } else {
-        setError('登录失败，请检查邮箱和密码')
-      }
-    } catch {
-      setError('登录失败，请稍后重试')
-    } finally {
-      setIsLoading(false)
+    if (!loginName.trim() || !password.trim()) {
+      return
+    }
+    
+    const loginData: LoginRequest = {
+      loginName: loginName.trim(),
+      password: password.trim()
+    }
+    
+    const success = await login(loginData)
+    if (success) {
+      navigate({ to: '/' })
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/50 p-4">
-      <Card className="w-full max-w-md">
+    <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">登录</CardTitle>
           <CardDescription>
@@ -51,15 +68,15 @@ function Login() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">邮箱</Label>
+              <Label htmlFor="loginName">用户名或邮箱</Label>
               <div className="relative">
-                <IconMail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <IconUser className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="请输入邮箱"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="loginName"
+                  type="text"
+                  placeholder="请输入用户名或邮箱"
+                  value={loginName}
+                  onChange={(e) => setLoginName(e.target.value)}
                   className="pl-10"
                   required
                 />
@@ -102,13 +119,30 @@ function Login() {
               {isLoading ? '登录中...' : '登录'}
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm">
-            <a href="#" className="text-primary hover:underline">
-              忘记密码？
-            </a>
+          <div className="mt-4 text-center text-sm space-y-2">
+            <div>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate({ to: '/forgot-password' })}
+                className="p-0 h-auto text-primary hover:underline"
+              >
+                忘记密码？
+              </Button>
+            </div>
+            <div>
+              还没有账户？{' '}
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate({ to: '/register' })}
+                className="p-0 h-auto text-primary hover:underline"
+              >
+                立即注册
+              </Button>
+            </div>
           </div>
         </CardContent>
-      </Card>
-    </div>
+    </Card>
   )
 }

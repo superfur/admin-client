@@ -19,12 +19,16 @@ import {
   IconUser,
   IconChevronLeft,
   IconChevronRight,
+  IconShield,
+  IconKey,
 } from '@tabler/icons-react'
 import { useAuthStore } from '@/stores/auth'
 
 const navigation = [
   { name: '仪表盘', href: '/', icon: IconDashboard },
   { name: '用户管理', href: '/users', icon: IconUsers },
+  { name: '角色管理', href: '/roles', icon: IconShield },
+  { name: '权限管理', href: '/permissions', icon: IconKey },
   { name: '系统设置', href: '/settings', icon: IconSettings },
 ]
 
@@ -107,13 +111,13 @@ export function Sidebar({ className }: SidebarProps) {
               )}
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.avatar} />
-                <AvatarFallback>{user?.name?.[0] || '用户'}</AvatarFallback>
+                <AvatarImage src="/placeholder-avatar.jpg" />
+                <AvatarFallback>{user?.username?.[0] || '用户'}</AvatarFallback>
               </Avatar>
               {!collapsed && (
                 <div className="ml-3 text-left">
-                  <p className="text-sm font-medium">{user?.name || '用户'}</p>
-                  <p className="text-xs text-muted-foreground">{user?.email}</p>
+                  <p className="text-sm font-medium">{user?.username || '用户'}</p>
+                  <p className="text-xs text-muted-foreground">{user?.email || '未设置邮箱'}</p>
                 </div>
               )}
             </Button>

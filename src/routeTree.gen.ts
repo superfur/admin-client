@@ -13,7 +13,12 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
 import { Route as SettingsImport } from './routes/settings'
+import { Route as RolesImport } from './routes/roles'
+import { Route as ResetPasswordImport } from './routes/reset-password'
+import { Route as RegisterImport } from './routes/register'
+import { Route as PermissionsImport } from './routes/permissions'
 import { Route as LoginImport } from './routes/login'
+import { Route as ForgotPasswordImport } from './routes/forgot-password'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
@@ -31,9 +36,39 @@ const SettingsRoute = SettingsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const RolesRoute = RolesImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResetPasswordRoute = ResetPasswordImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RegisterRoute = RegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PermissionsRoute = PermissionsImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotPasswordRoute = ForgotPasswordImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,11 +102,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/permissions': {
+      id: '/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof PermissionsImport
+      parentRoute: typeof rootRoute
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordImport
+      parentRoute: typeof rootRoute
+    }
+    '/roles': {
+      id: '/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof RolesImport
       parentRoute: typeof rootRoute
     }
     '/settings': {
@@ -96,7 +166,12 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/permissions': typeof PermissionsRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roles': typeof RolesRoute
   '/settings': typeof SettingsRoute
   '/users': typeof UsersRoute
 }
@@ -104,7 +179,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/permissions': typeof PermissionsRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roles': typeof RolesRoute
   '/settings': typeof SettingsRoute
   '/users': typeof UsersRoute
 }
@@ -113,24 +193,65 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/permissions': typeof PermissionsRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roles': typeof RolesRoute
   '/settings': typeof SettingsRoute
   '/users': typeof UsersRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/settings' | '/users'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/permissions'
+    | '/register'
+    | '/reset-password'
+    | '/roles'
+    | '/settings'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/settings' | '/users'
-  id: '__root__' | '/' | '/about' | '/login' | '/settings' | '/users'
+  to:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/permissions'
+    | '/register'
+    | '/reset-password'
+    | '/roles'
+    | '/settings'
+    | '/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/permissions'
+    | '/register'
+    | '/reset-password'
+    | '/roles'
+    | '/settings'
+    | '/users'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PermissionsRoute: typeof PermissionsRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  RolesRoute: typeof RolesRoute
   SettingsRoute: typeof SettingsRoute
   UsersRoute: typeof UsersRoute
 }
@@ -138,7 +259,12 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PermissionsRoute: PermissionsRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  RolesRoute: RolesRoute,
   SettingsRoute: SettingsRoute,
   UsersRoute: UsersRoute,
 }
@@ -155,7 +281,12 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/forgot-password",
         "/login",
+        "/permissions",
+        "/register",
+        "/reset-password",
+        "/roles",
         "/settings",
         "/users"
       ]
@@ -166,8 +297,23 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.tsx"
     },
+    "/forgot-password": {
+      "filePath": "forgot-password.tsx"
+    },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/permissions": {
+      "filePath": "permissions.tsx"
+    },
+    "/register": {
+      "filePath": "register.tsx"
+    },
+    "/reset-password": {
+      "filePath": "reset-password.tsx"
+    },
+    "/roles": {
+      "filePath": "roles.tsx"
     },
     "/settings": {
       "filePath": "settings.tsx"

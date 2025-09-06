@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .test-link { display: inline-block; margin: 5px 10px 5px 0; padding: 8px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; }
+        .test-link:hover { background: #0056b3; }
+        .status { margin-left: 10px; font-weight: bold; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>路由功能测试</h1>
+    
+    <div class="test-section">
+        <h2>认证页面测试</h2>
+        <p>这些页面应该显示在独立布局中（无侧边栏）：</p>
+        <a href="http://localhost:3000/login" class="test-link" target="_blank">登录页面</a>
+        <a href="http://localhost:3000/register" class="test-link" target="_blank">注册页面</a>
+        <a href="http://localhost:3000/forgot-password" class="test-link" target="_blank">找回密码</a>
+        <a href="http://localhost:3000/reset-password" class="test-link" target="_blank">重置密码</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>主应用页面测试</h2>
+        <p>这些页面应该显示在完整布局中（包含侧边栏），未登录用户会被重定向到登录页：</p>
+        <a href="http://localhost:3000/" class="test-link" target="_blank">首页</a>
+        <a href="http://localhost:3000/users" class="test-link" target="_blank">用户管理</a>
+        <a href="http://localhost:3000/roles" class="test-link" target="_blank">角色管理</a>
+        <a href="http://localhost:3000/permissions" class="test-link" target="_blank">权限管理</a>
+        <a href="http://localhost:3000/settings" class="test-link" target="_blank">系统设置</a>
+        <a href="http://localhost:3000/about" class="test-link" target="_blank">关于页面</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>测试说明</h2>
+        <ol>
+            <li><strong>未登录状态测试</strong>：
+                <ul>
+                    <li>访问主应用页面应该自动重定向到登录页</li>
+                    <li>访问认证页面应该正常显示（无侧边栏）</li>
+                </ul>
+            </li>
+            <li><strong>登录后测试</strong>：
+                <ul>
+                    <li>访问认证页面应该自动重定向到首页</li>
+                    <li>访问主应用页面应该正常显示（包含侧边栏）</li>
+                </ul>
+            </li>
+            <li><strong>布局测试</strong>：
+                <ul>
+                    <li>认证页面：居中显示，无侧边栏</li>
+                    <li>主应用页面：包含侧边栏和头部导航</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h2>预期结果</h2>
+        <p>✅ 登录页面应该正常显示登录表单</p>
+        <p>✅ 注册页面应该正常显示注册表单</p>
+        <p>✅ 找回密码页面应该正常显示表单</p>
+        <p>✅ 未登录用户访问主应用页面应该重定向到登录页</p>
+        <p>✅ 已登录用户访问认证页面应该重定向到首页</p>
+    </div>
+</body>
+</html>

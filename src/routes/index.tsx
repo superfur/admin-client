@@ -2,12 +2,18 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { MainLayout } from '@/components/layout/main-layout'
+import { RouteGuard } from '@/components/auth/route-guard'
 
 export const Route = createFileRoute('/')({
-  component: Index,
+  component: () => (
+    <RouteGuard requireAuth={true}>
+      <MainLayout />
+    </RouteGuard>
+  ),
 })
 
-function Index() {
+export function Index() {
   return (
     <div className="container mx-auto p-6">
       <div className="max-w-4xl mx-auto space-y-8">

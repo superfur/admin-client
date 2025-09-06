@@ -1,8 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { RouteGuard } from '@/components/auth/route-guard'
 
 export const Route = createFileRoute('/about')({
-  component: About,
+  component: () => (
+    <RouteGuard requireAuth={true}>
+      <About />
+    </RouteGuard>
+  ),
 })
 
 function About() {

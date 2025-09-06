@@ -5,9 +5,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Separator } from '@/components/ui/separator'
+import { RouteGuard } from '@/components/auth/route-guard'
 
 export const Route = createFileRoute('/settings')({
-  component: Settings,
+  component: () => (
+    <RouteGuard requireAuth={true}>
+      <Settings />
+    </RouteGuard>
+  ),
 })
 
 function Settings() {
